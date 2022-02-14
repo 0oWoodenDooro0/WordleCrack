@@ -225,12 +225,13 @@ def check(word, color, left_result):
         left_result = words[:]
     result_remove = set()
     result = left_result[:]
-    alphabet_set = set(word)
+    alphabet_set = set()
     alphabet_count = {}
     green, orange, gray = "", "", ""
     for i in range(5):
         if color[i] == "g":
             green = green + word[i]
+            alphabet_set.add(word[i])
             if word[i] in alphabet_count:
                 alphabet_count[word[i]] += 1
             else:
@@ -239,6 +240,7 @@ def check(word, color, left_result):
             green = green + "_"
         if color[i] == "o":
             orange = orange + word[i]
+            alphabet_set.add(word[i])
             if word[i] in alphabet_count:
                 alphabet_count[word[i]] += 1
             else:
