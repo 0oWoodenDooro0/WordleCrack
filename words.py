@@ -269,7 +269,7 @@ def check(word, color, left_result):
                 if gray[j] != "_" and gray[j] in i and gray[j] not in alphabet_set:
                     result_remove.add(i)
             for k in alphabet_count:
-                if i.count(k) != alphabet_count[k]:
+                if i.count(k) < alphabet_count[k]:
                     result_remove.add(i)
 
     for i in result_remove:
