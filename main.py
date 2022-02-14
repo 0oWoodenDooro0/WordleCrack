@@ -1,6 +1,6 @@
 import words
 result = None
-recommend_words = words.check("-----", "-----", result)[1]
+recommend_words = words.check("_____", "_____", result)[1]
 for i in range(5):
     print(recommend_words[i][0])
 while True:

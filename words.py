@@ -1,5 +1,3 @@
-import recommend as recommend
-
 words = ['aback', 'abase', 'abate', 'abbey', 'abbot', 'abhor', 'abide', 'abled', 'abode', 'abort', 'about', 'above',
          'abuse', 'abyss', 'acorn', 'acrid', 'actor', 'acute', 'adage', 'adapt', 'adept', 'admin', 'admit', 'adobe',
          'adopt', 'adore', 'adorn', 'adult', 'affix', 'afire', 'afoot', 'afoul', 'after', 'again', 'agape', 'agate',
@@ -227,16 +225,24 @@ def check(word, color, left_result):
         left_result = words[:]
     result_remove = set()
     result = left_result[:]
-    green = ""
-    orange = ""
-    gray = ""
+    alphabet_set = set(word)
+    alphabet_count = {}
+    green, orange, gray = "", "", ""
     for i in range(5):
         if color[i] == "g":
             green = green + word[i]
+            if word[i] in alphabet_count:
+                alphabet_count[word[i]] += 1
+            else:
+                alphabet_count[word[i]] = 1
         else:
             green = green + "_"
         if color[i] == "o":
             orange = orange + word[i]
+            if word[i] in alphabet_count:
+                alphabet_count[word[i]] += 1
+            else:
+                alphabet_count[word[i]] = 1
         else:
             orange = orange + "_"
         if color[i] == "-":
@@ -260,7 +266,10 @@ def check(word, color, left_result):
     if gray != "_____":
         for i in left_result:
             for j in range(5):
-                if gray[j] != "_" and gray[j] in i:
+                if gray[j] != "_" and gray[j] in i and gray[j] not in alphabet_set:
+                    result_remove.add(i)
+            for k in alphabet_count:
+                if i.count(k) != alphabet_count[k]:
                     result_remove.add(i)
 
     for i in result_remove:
@@ -276,3 +285,64 @@ def check(word, color, left_result):
         recommend_words[j] = (result[j], total)
     recommend_words.sort(key=lambda x: x[1], reverse=True)
     return result, recommend_words
+
+# for k in range(4):
+#     if len(alphabet_count[k + 2]) != 0:
+#         for m in alphabet_count[k + 2]:
+#             if i.count(m) != k + 2:
+#                 result_remove.add(i)
+
+# def check(word, color, left_result):
+#     if left_result is None:
+#         left_result = words[:]
+#     result_remove = set()
+#     result = left_result[:]
+#     green = ""
+#     orange = ""
+#     gray = ""
+#     for i in range(5):
+#         if color[i] == "g":
+#             green = green + word[i]
+#         else:
+#             green = green + "_"
+#         if color[i] == "o":
+#             orange = orange + word[i]
+#         else:
+#             orange = orange + "_"
+#         if color[i] == "-":
+#             gray = gray + word[i]
+#         else:
+#             gray = gray + "_"
+#     if green != "_____":
+#         for i in left_result:
+#             for j in range(5):
+#                 if green[j] != "_" and i[j] != green[j]:
+#                     result_remove.add(i)
+#     if orange != "_____":
+#         for i in left_result:
+#             for j in range(5):
+#                 if orange[j] == "_":
+#                     pass
+#                 elif orange[j] == i[j]:
+#                     result_remove.add(i)
+#                 elif orange[j] not in i:
+#                     result_remove.add(i)
+#     if gray != "_____":
+#         for i in left_result:
+#             for j in range(5):
+#                 if gray[j] != "_" and gray[j] in i:
+#                     result_remove.add(i)
+#
+#     for i in result_remove:
+#         result.remove(i)
+#     recommend_words = result[:]
+#     for j in range(len(result)):
+#         total = 0
+#         a = set()
+#         for k in range(5):
+#             if result[j][k] not in a:
+#                 total += alphabet[result[j][k]]
+#                 a.add(result[j][k])
+#         recommend_words[j] = (result[j], total)
+#     recommend_words.sort(key=lambda x: x[1], reverse=True)
+#     return result, recommend_words
