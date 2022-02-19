@@ -220,13 +220,15 @@ alphabet = {'a': 0.08167,
             'z': 0.00074, }
 
 
-def check(word, color, left_result):
+def check(word, color, left_result=None, alphabet_set=None, gray_set=None):
     if left_result is None:
         left_result = words[:]
+    if alphabet_set is None:
+        alphabet_set = set()
+    if gray_set is None:
+        gray_set = set()
     result_remove = set()
     result = left_result[:]
-    alphabet_set = set()
-    gray_set = set()
     alphabet_count = {}
     green, orange, gray = "", "", ""
     for i in range(5):
@@ -253,19 +255,6 @@ def check(word, color, left_result):
             gray_set.add(word[i])
         else:
             gray = gray + "_"
-    if len(alphabet_set) <= 4:
-        result = words[:]
-        four_alphabet_result = result[:]
-        for i in range(len(result)):
-            total = 0
-            a = set()
-            for j in range(5):
-                if result[i][j] not in gray_set | alphabet_set and result[i][j] not in a:
-                    total += alphabet[result[i][j]]
-                    a.add(result[i][j])
-            four_alphabet_result[i] = (result[i], total)
-        four_alphabet_result.sort(key=lambda x: x[1], reverse=True)
-        return result, four_alphabet_result
     if green != "_____":
         for i in left_result:
             for j in range(5):
@@ -291,6 +280,18 @@ def check(word, color, left_result):
 
     for i in result_remove:
         result.remove(i)
+    if len(alphabet_set) <= 4:
+        four_alphabet_result = words[:]
+        for i in range(len(four_alphabet_result)):
+            total = 0
+            a = set()
+            for j in range(5):
+                if four_alphabet_result[i][j] not in gray_set | alphabet_set and four_alphabet_result[i][j] not in a:
+                    total += alphabet[four_alphabet_result[i][j]]
+                    a.add(four_alphabet_result[i][j])
+            four_alphabet_result[i] = (four_alphabet_result[i], total)
+        four_alphabet_result.sort(key=lambda x: x[1], reverse=True)
+        return result, four_alphabet_result, alphabet_set, gray_set
     recommend_words = result[:]
     for j in range(len(result)):
         total = 0
@@ -301,7 +302,7 @@ def check(word, color, left_result):
                 a.add(result[j][k])
         recommend_words[j] = (result[j], total)
     recommend_words.sort(key=lambda x: x[1], reverse=True)
-    return result, recommend_words
+    return result, recommend_words, alphabet_set, gray_set
 
 # def check(word, color, left_result):
 #     if left_result is None:
