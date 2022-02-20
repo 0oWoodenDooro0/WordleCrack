@@ -280,7 +280,7 @@ def check(word, color, left_result=None, alphabet_set=None, gray_set=None):
 
     for i in result_remove:
         result.remove(i)
-    if len(alphabet_set) < 4:
+    if len(alphabet_set) < 3:
         four_alphabet_result = words[:]
         for i in range(len(four_alphabet_result)):
             total = 0
