@@ -4,7 +4,7 @@ import words
 def check():
     result = None
     recommend_words = words.check("_____", "_____", result)[1]
-    print("如果是綠色輸入g,橘色輸入o,灰色輸入-")
+    print("如果是綠色輸入g,橘色輸入o,灰色輸入-,輸入end開始新的一局")
     m, n = set(), set()
     for i in range(5):
         print(recommend_words[i][0])
